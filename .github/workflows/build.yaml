@@ -1,0 +1,39 @@
+name: build
+
+on:
+  pull_request:
+    branches:
+      - main
+      - v*
+
+  push:
+    branches:
+      - main
+      - v*
+    tags:
+      - v*
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        go: [ '1.14', '1.x' ]
+        os: [ ubuntu-latest, macos-latest ]
+
+    runs-on: ${{ matrix.os }}
+
+    name: ${{ matrix.os }}/${{ matrix.go }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Build
+        run: go build
+
+      - name: Check
+        run: ./httpshd -help
