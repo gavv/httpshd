@@ -15,7 +15,9 @@ Thanks to this, the output of a long-running command is delivered to the client 
 
 This program is absolutely insecure!
 
-There is neither encryption, nor authentication currently. Anyone can execute any command with the permissions of the user which is running `httpshd`. Hence, it's recommended to use it only within private networks.
+There is neither encryption, nor authentication. Anyone can execute any command with the permissions of the user which is running `httpshd`. Hence, it's recommended to use it only within private networks or tunnels.
+
+As suggested on reddit, you can use SSH port forwarding to secure it (see example below).
 
 ## Installation
 
@@ -42,7 +44,7 @@ go build
 ./httpshd -help
 ```
 
-## Example
+## Usage example
 
 Server:
 
@@ -57,6 +59,32 @@ $ ./httpshd
 Client:
 
 ```
+$ echo "ls -l" | curl -XPOST -d @- -s http://<server>:3333
+total 6256
+-rw-r--r-- 1 user user     149 Jun 16 21:01 go.mod
+-rw-r--r-- 1 user user     370 Mar 24 19:21 go.sum
+-rw-r--r-- 1 user user    1080 Jun 16 21:15 LICENSE
+-rw-r--r-- 1 user user    1673 Jun 16 20:59 main.go
+-rw-r--r-- 1 user user    1235 Jun 16 21:14 README.md
+```
+
+## Using with SSH port forwarding
+
+Server:
+
+```
+$ ./httpshd -host 127.0.0.1
+21:00:03.585 starting server at 127.0.0.1:3333
+21:00:14.734 [127.0.0.1:37786] executing command: /bin/zsh -c "ls -l"
+21:00:14.741 [127.0.0.1:37786] success
+...
+```
+
+Client:
+
+```
+$ ssh -fN -L 127.0.0.1:3333:127.0.0.1:3333 <server>
+
 $ echo "ls -l" | curl -XPOST -d @- -s http://127.0.0.1:3333
 total 6256
 -rw-r--r-- 1 user user     149 Jun 16 21:01 go.mod
