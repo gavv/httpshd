@@ -21,18 +21,12 @@ As suggested on reddit, you can use SSH port forwarding to secure it (see exampl
 
 ## Installation
 
-First, install [recent Go](https://github.com/golang/go/wiki/Ubuntu) (at least 1.14 is needed):
+First, install Go.
+
+Then run this command, which will download, build, and install `httpshd` executable into `$GOPATH/bin` (it's `~/go/bin` if `GOPATH` environment variable is not set):
 
 ```
-sudo add-apt-repository ppa:longsleep/golang-backports
-sudo apt-get update
-sudo apt-get install golang-go
-```
-
-This will download, build, and install `httpshd` executable into `$GOPATH/bin` (it's `~/go/bin` if `GOPATH` environment variable is not set):
-
-```
-go get github.com/gavv/httpshd
+go install github.com/gavv/httpshd@latest
 ```
 
 Alternatively, you can install from sources:
