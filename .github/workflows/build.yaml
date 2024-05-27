@@ -2,16 +2,17 @@ name: build
 
 on:
   pull_request:
-    branches:
-      - main
-      - v*
 
   push:
     branches:
       - main
-      - v*
     tags:
       - v*
+
+  workflow_dispatch:
+
+  schedule:
+    - cron: '0 0 * * 1'
 
 jobs:
   build:
