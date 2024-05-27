@@ -18,7 +18,7 @@ jobs:
   build:
     strategy:
       matrix:
-        go: [ '1.14', '1.x' ]
+        go: [ '1.16', '1.x' ]
         os: [ ubuntu-latest, macos-latest ]
 
     runs-on: ${{ matrix.os }}
@@ -26,10 +26,10 @@ jobs:
     name: ${{ matrix.os }}/${{ matrix.go }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go }}
 
