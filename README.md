@@ -23,10 +23,22 @@ As suggested on reddit, you can use SSH port forwarding to secure it (see exampl
 
 First, install Go.
 
+On Debian / Ununtu:
+
+```
+sudo apt install golang-go
+```
+
+On macOS:
+
+```
+brew install go
+```
+
 Then run this command, which will download, build, and install `httpshd` executable into `$GOPATH/bin` (it's `~/go/bin` if `GOPATH` environment variable is not set):
 
 ```
-go install github.com/gavv/httpshd@latest
+go install -v github.com/gavv/httpshd@latest
 ```
 
 Alternatively, you can install from sources:
@@ -107,7 +119,7 @@ Usage of ./httpshd
 
 I created this program because I needed to run compilation on macOS remotely from my Linux box. Unfortunately, Xcode toolchain has many difficulties with SSH, and some build steps like app signing just didn't work even with some well-known workarounds.
 
-Meanwhile, just sending commands to `nc` connected to `sh` worked, given that `nc` is started inside an interaсtive session (i.e. you login, open terminal, and run it). The reason is that `nc`, as well as `httpshd`, and unlike `sshd`, doesn't create a new user session, which is handled specially by the OS.
+Meanwhile, just sending commands to `nc` connected to `sh` worked, given that `nc` is started inside an interactive session (i.e. you login, open terminal, and run it). The reason is that `nc`, as well as `httpshd`, and unlike `sshd`, doesn't create a new user session, which is handled specially by the OS.
 
 Since `nc` is not very handy for this specific use case, this tool was created.
 
